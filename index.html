@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reading Challenge</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#0b1020;--card:#131b33;--line:#2a3558;--txt:#f1ece0;--muted:#9aa4c0;--gold:#e6c35c}
+*{box-sizing:border-box}
+body{margin:0;font-family:Georgia,"Times New Roman",serif;background:var(--bg);color:var(--txt);min-height:100vh;line-height:1.6}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 60px}
+.hero{text-align:center;padding:24px 0}
+.hero .tag{letter-spacing:.3em;color:var(--gold);font-size:12px;font-family:Arial,sans-serif;font-weight:bold}
+.hero h1{font-size:40px;margin:8px 0 0;font-weight:400}
+.hero h1 i{color:var(--gold)}
+.hero .by{color:var(--muted);font-family:Arial,sans-serif}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:30px;padding:8px 16px;font-family:Arial,sans-serif;font-size:14px;margin-top:12px}
+.pill b{color:var(--gold)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:16px 0;cursor:pointer}
+.card h2{margin:6px 0;font-size:24px;font-weight:400}
+.card p{color:var(--muted);margin:0;font-family:Arial,sans-serif;font-size:15px}
+.back{background:var(--card);border:1px solid var(--gold);color:var(--gold);font-size:19px;font-weight:bold;cursor:pointer;padding:10px 16px;border-radius:12px;margin:6px 0 12px;font-family:Arial,sans-serif}
+.passage{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;font-size:17px}
+.passage h3{text-align:center;font-weight:400;font-size:24px;margin-top:0}
+.passage p{margin:0 0 14px;text-align:left}
+.gold{color:var(--gold);font-weight:bold;cursor:pointer;border-bottom:1px dotted var(--gold)}
+mark{background:#f5e27a;color:#111;border-radius:3px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0;font-family:Arial,sans-serif}
+.btn{background:var(--gold);color:#111;border:none;border-radius:10px;padding:10px 14px;font-weight:bold;cursor:pointer;font-size:14px}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+#tip{position:fixed;background:#fff;color:#111;padding:8px 12px;border-radius:8px;font-family:Arial,sans-serif;font-size:14px;max-width:260px;display:none;z-index:9;box-shadow:0 4px 16px #0008}
+.timer{font-family:Arial,sans-serif;font-size:18px;color:var(--gold);font-weight:bold}
+.q{margin:16px 0;font-size:16px}
+.q .n{color:var(--gold);font-weight:bold}
+.opts label{display:block;margin:4px 0;font-family:Arial,sans-serif;font-size:15px;color:var(--muted)}
+.opts input{margin-right:6px}
+input.txt{background:#0b1020;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:6px 10px;font-size:15px;box-sizing:border-box;width:100%;max-width:100%;margin:4px 0}
+.res{font-family:Arial,sans-serif;font-size:15px;color:var(--gold);margin-top:6px}
+table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:15px}
+th,td{border-bottom:1px solid var(--line);padding:10px 6px;text-align:left;vertical-align:top}
+th{color:var(--gold);font-weight:normal}
+.flip{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 20px;min-height:220px;text-align:center;cursor:pointer;font-family:Arial,sans-serif;font-size:16px;display:flex;flex-direction:column;justify-content:center;word-break:break-word;max-width:100%;box-sizing:border-box}
+.flip .w{font-family:Georgia,serif;font-size:30px;color:var(--gold)}
+.flip .small{color:var(--muted);font-size:14px;margin-top:10px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HOME -->
+<div id="home">
+  <div class="hero">
+    <div class="tag">RS IELTS PRESENTS</div>
+    <h1>Reading <i>Challenge</i></h1>
+    <div class="by">by Komila</div>
+    <div class="pill">Bugungi matn: <b>Life in the Countryside</b></div>
+    <div class="pill" id="progress"></div>
+  </div>
+  <div class="card" onclick="show('general')"><div>📖</div><h2>General Reading</h2><p>Matnni maqola sifatida o'qing. Ingliz ovozini tinglang va oltin so'zlarni bosib ma'nosini ko'ring.</p></div>
+  <div class="card" onclick="show('test')"><div>✍️</div><h2>IELTS Reading</h2><p>Haqiqiy test: 13 savol, taymer, belgilash va band bo'yicha natija.</p></div>
+  <div class="card" onclick="show('keys')"><div>🔍</div><h2>Key Word Table</h2><p>Savollar matnni qanday parafraz qilishini ko'ring.</p></div>
+  <div class="card" onclick="show('board')"><div>🏆</div><h2>Leaderboard</h2><p>Top scores from players who won a game.</p></div>
+  <div class="card" onclick="show('practice')"><div>📝</div><h2>Practice</h2><p>3 new reading passages with questions, and a word bank exercise.</p></div>
+  <div class="card" onclick="show('speak')"><div>🗣️</div><h2>Speaking</h2><p>Shadowing, IELTS Part 2 timer and pronunciation check.</p></div>
+  <div class="card" onclick="show('game')"><div>🎯</div><h2>Games</h2><p>Word Match, Word Scramble, Gap Quiz. Earn points and keep your streak!</p></div>
+  <div class="card" onclick="show('vocab')"><div>🃏</div><h2>Vocabulary Revision</h2><p>Kartochkalar: ta'rif, o'zbekcha tarjima va misol.</p></div>
+</div>
+
+<!-- GENERAL READING -->
+<div id="general" class="hidden">
+  <button class="back" onclick="show('home')">← Orqaga</button>
+  <div class="bar" style="align-items:center"><select id="psel" onchange="loadPassage(+this.value)" style="background:#0b1020;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px;max-width:100%"></select></div>
+  <div class="bar"><button class="btn" onclick="speak()">▶ Tinglash</button><button class="btn ghost" onclick="stopSpeak()">■ To'xtatish</button></div>
+  <div class="bar" style="font-size:13px;color:var(--muted)">Matnni belgilab "Ajratish" tugmasini bosing. Ajratilgan matn darhol tarjimasi bilan chiqadi.</div>
+  <div class="bar"><button class="btn ghost" onpointerdown="event.preventDefault()" onclick="hl2()">🖍 Ajratish</button><button class="btn ghost" onclick="unhl()">Tozalash</button></div>
+  <div class="passage" id="passage"></div>
+</div>
+
+<!-- IELTS TEST -->
+<div id="test" class="hidden">
+  <button class="back" onclick="show('home')">← Orqaga</button>
+  <div class="bar" style="justify-content:space-between;align-items:center"><span class="timer" id="clock">20:00</span><button class="btn" onclick="submitTest()">Yakunlash</button></div>
+  <div class="passage" id="testPassage"></div>
+  <div class="passage" style="margin-top:14px" id="questions"></div>
+  <div class="card" id="score" style="display:none"></div>
+</div>
+
+<!-- KEY WORDS -->
+<div id="keys" class="hidden">
+  <button class="back" onclick="show('home')">← Orqaga</button>
+  <div class="passage">
+    <table>
+      <tr><th>Matnda</th><th>Savolda / parafraz</th></tr>
+      <tr><td>scarcity of schools</td><td>few schools</td></tr>
+      <tr><td>rural depopulation</td><td>fewer people moving to villages / shrinking population</td></tr>
+      <tr><td>backwater</td><td>isolated, little happens</td></tr>
+      <tr><td>afflict</td><td>damage, affect</td></tr>
+      <tr><td>crop rotation</td><td>changing crops between fields</td></tr>
+      <tr><td>subsistence level</td><td>just enough to live on</td></tr>
+      <tr><td>remote viewing</td><td>online access, not in person</td></tr>
+      <tr><td>wider economy</td><td>national economy</td></tr>
+      <tr><td>smallholders</td><td>small farmers</td></tr>
+      <tr><td>access to services</td><td>availability of services</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="game" class="hidden">
+  <button class="back" onclick="show('home')">← Orqaga</button>
+  <div id="gamemenu">
+    <div class="card" onclick="startGame('match')"><div>🎯</div><h2>Word Match</h2><p>So'zning o'zbekcha ma'nosini 4 ta variantdan toping.</p></div>
+    <div class="card" onclick="startGame('scramble')"><div>🔤</div><h2>Word Scramble</h2><p>Harflarni to'g'rilab, so'zni yozing. Ma'nosi maslahat sifatida beriladi.</p></div>
+    <div class="card" onclick="startGame('gap')"><div>🧩</div><h2>Gap Quiz</h2><p>Gapdagi bo'sh joyga to'g'ri so'zni tanlang.</p></div>
+  </div>
+  <div id="gameback"></div>
+  <div id="gamebox" class="hidden"></div>
+</div>
+
+<!-- SPEAKING -->
+<div id="speak" class="hidden">
+  <button class="back" onclick="show('home')">← Back</button>
+  <div class="card" style="cursor:default"><h2>Part 1 Questions</h2><p id="p1q" style="font-size:18px"></p><div class="bar"><button class="btn" onclick="nextP1()">Next question →</button></div></div>
+  <div class="card" style="cursor:default"><h2>Part 3 Discussion</h2><p id="p3q" style="font-size:18px"></p><div class="bar"><button class="btn" onclick="nextP3()">Next question →</button></div></div>
+  <div class="card" style="cursor:default">
+    <h2>Shadowing</h2>
+    <p>Listen to each sentence and repeat it right after the voice.</p>
+    <div class="bar" style="align-items:center;font-size:14px;color:var(--muted)">Speed: <select id="rateSel" onchange="rate=+this.value" style="background:#0b1020;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:4px"><option value="0.6">Very slow</option><option value="0.75" selected>Slow</option><option value="0.9">Normal</option><option value="1">Fast</option></select> Voice: <select id="voiceSel" onchange="voiceChoice=voices[+this.value]" style="background:#0b1020;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:4px;max-width:200px"></select></div>
+    <div class="bar"><button class="btn ghost" onclick="shadowNext(-1)">← Prev</button><button class="btn" onclick="shadowPlay()">▶ Play</button><button class="btn ghost" onclick="shadowNext(1)">Next →</button></div>
+    <div id="shadowText" style="font-size:19px"></div>
+  </div>
+  <div class="card" style="cursor:default">
+    <h2>Part 2 Timer</h2>
+    <p>Cue card: describe a place in the countryside you like. 1 minute to prepare, 2 minutes to speak.</p>
+    <div class="timer" id="p2clock">01:00</div><div id="p2label" style="font-family:Arial;color:var(--muted)">Ready</div><div style="height:8px;background:#0b1020;border-radius:6px;margin:8px 0"><div id="p2bar" style="height:8px;width:100%;background:var(--gold);border-radius:6px;transition:width 1s linear"></div></div><div id="cue" style="font-size:17px;margin-top:8px"></div>
+    <div class="bar"><button class="btn" onclick="p2Start()">▶ Start Part 2</button><button class="btn ghost" onclick="p2Reset()">Reset</button></div>
+  </div>
+  <div class="card" style="cursor:default">
+    <h2>Pronunciation Check</h2>
+    <p>Read the sentence aloud. The app compares your words with the target (Chrome recommended).</p>
+    <div id="target" style="font-size:18px;margin:8px 0"></div>
+    <div class="bar"><button class="btn" onclick="checkSpeech2()">🎤 Speak</button><button class="btn ghost" onclick="nextSent()">Next sentence →</button></div>
+    <div id="said" class="res"></div>
+  </div>
+</div>
+
+<!-- PRACTICE -->
+<div id="practice" class="hidden">
+  <button class="back" onclick="show('home')">← Back</button>
+  <div id="practiceBox"></div>
+</div>
+
+<!-- BOARD -->
+<div id="board" class="hidden">
+  <button class="back" onclick="show('home')">← Back</button>
+  <div class="passage"><h3>Leaderboard</h3><div id="boardList"></div><button class="btn ghost" style="margin-top:10px" onclick="loadBoard()">Refresh</button></div>
+</div>
+
+<!-- VOCAB -->
+<div id="vocab" class="hidden">
+  <button class="back" onclick="show('home')">← Orqaga</button>
+  <div class="flip" id="card" onclick="flipCard()"></div>
+  <div class="bar" style="justify-content:space-between"><button class="btn ghost" onclick="step(-1)">← Oldingi</button><span id="cnt" style="font-family:Arial;color:var(--muted);align-self:center"></span><button class="btn" onclick="step(1)">Keyingi →</button></div>
+</div>
+
+</div>
+<div id="tip"></div>
+
+<script>
+const W = [
+ ["rural","qishloqqa oid, qishloq","Rural life is often quieter than city life.","rural, of the countryside"],
+ ["backwater","chekka, rivojlanmagan joy","Some villages are seen as a backwater.","an area where little happens"],
+ ["rural depopulation","qishloq aholisining kamayishi","Rural depopulation has emptied many villages.","people leaving the countryside for cities"],
+ ["scarcity","tanqislik, kamchilik","There is a scarcity of doctors in remote areas.","a lack or shortage"],
+ ["abundance","mo'llik, ko'plik","The valley has an abundance of water.","a very large amount"],
+ ["subsistence","o'z ehtiyojini qondirish darajasi","Many families live at a subsistence level.","producing just enough to live on"],
+ ["smallholders","kichik fermerlar","Smallholders grow food for their families.","farmers with very small farms"],
+ ["self-sufficient","o'ziga yetarli","The farm is almost self-sufficient in vegetables.","not needing outside supplies"],
+ ["wider economy","umumiy iqtisodiyot","Changes in the wider economy affect prices.","the national economy"],
+ ["afflict","zarar yetkazmoq, ta'sir qilmoq","Disease can afflict crops and forests.","to cause suffering or damage"],
+ ["animal husbandry","chorvachilik","Children learn animal husbandry on farms.","the skill of raising animals"],
+ ["crop rotation","almashlab ekish","Crop rotation keeps the soil fertile.","changing crops in a field each year"],
+ ["remote viewing","masofadan kuzatish","Remote viewing lets students see museums online.","viewing places by internet"],
+ ["far-flung","uzoq, chekka","They live in a far-flung village.","remote, far away"],
+ ["environmental awareness","ekologik ong","Environmental awareness is growing.","understanding of environmental issues"],
+ ["rural unemployment","qishloqdagi ishsizlik","New internet start-ups have reduced rural unemployment.","unemployment affecting rural workers"],
+ ["irrigation","sug'orish","Good irrigation helps farmers grow crops in dry years.","supplying water to land for farming"],
+ ["infertile","unumsiz","Overused fields become infertile after many years.","not able to produce crops"],
+ ["dwindling","kamayib borayotgan","The number of farmers is dwindling every year.","steadily decreasing in number"],
+ ["famine","ocharchilik","A famine can follow several years of drought.","a lack of food for a long time"],
+ ["drought","qurg'oqchilik","Drought destroyed the wheat harvest that summer.","a long period with no rain"],
+ ["outbreak","avj olish, tarqalish","An outbreak of disease killed many animals.","the sudden start of something harmful"],
+ ["livelihood","tirikchilik","Farming is the main livelihood in this valley.","the way a person earns money to live"],
+ ["sustainable","barqaror","Sustainable farming protects the soil for future generations.","able to continue without harm"],
+ ["conservation","muhofaza qilish","Conservation of forests protects wildlife.","protecting nature from damage"],
+["water bodies","suv havzalari (daryo, ko'l, suv ombori)","Many villages sit near rivers and lakes, which are important water bodies.","inland areas of water such as rivers, lakes and reservoirs"]
+];
+
+const passageHTML = `
+<h3>Life in the Countryside</h3>
+<p>For many families, the countryside offers a way of life that is hard to find in a crowded city. Farms, forests and <span class="gold" data-i="25">water bodies</span> provide an <span class="gold" data-i="4">abundance</span> of natural resources, and a household that works the land can often live at a <span class="gold" data-i="5">subsistence</span> level, growing its own food and keeping animals.</p>
+<p>Yet rural life is not without difficulties. <span class="gold" data-i="2">Rural depopulation</span> has left many villages with fewer residents each decade, and the scarcity of schools means that children may travel long distances to reach a classroom. Cultural life can also feel limited, so some families describe the countryside as a <span class="gold" data-i="1">backwater</span>, far from theatres and museums.</p>
+<p>Farming itself is demanding. <span class="gold" data-i="6">Smallholders</span> must cope with price changes in the <span class="gold" data-i="8">wider economy</span>, which can affect them more sharply than city workers. Disease can <span class="gold" data-i="9">afflict</span> crops and forests alike, and without good irrigation and training, rural poverty may persist for years.</p>
+<p>Modern methods are helping. Farmers now practise <span class="gold" data-i="11">crop rotation</span> to keep the soil fertile, and many children raised on farms gain practical knowledge of <span class="gold" data-i="10">animal husbandry</span> from an early age. Technology has also reduced isolation: <span class="gold" data-i="12">remote viewing</span> of museums and online courses allows students in <span class="gold" data-i="13">far-flung</span> villages to reach the same material as city pupils.</p>
+<p>Environmental awareness is rising too. Many rural communities now protect their forests and rivers, recognising that their long-term prosperity depends on them. Whether the countryside is the right choice for a family therefore depends less on distance from the city than on access to services, work and a community willing to invest in its future.</p>`;
+
+document.getElementById('passage').innerHTML = passageHTML;
+document.getElementById('testPassage').innerHTML = passageHTML.replace(/<span class="gold"[^>]*>/g,'<span>').replace(/<\/span>/g,'');
+
+function show(id){
+  tip.style.display='none';
+  ['home','general','test','keys','game','speak','practice','board','vocab'].forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
+  if(id==='vocab') renderCard();
+  if(id==='game') gameMenu();
+  if(id==='speak'){ renderShadow(); loadVoices(); }
+  if(id==='home') renderProgress();
+  if(id==='practice') renderPractice();
+  if(id==='board') loadBoard();
+  window.scrollTo(0,0);
+}
+
+// tap gold words
+const tip=document.getElementById('tip');
+// hide the popup when tapping anywhere outside it and outside the passage text
+document.addEventListener('click',e=>{ if(!e.target.closest('#tip') && !e.target.closest('#passage')) tip.style.display='none'; });
+tip.addEventListener('click',e=>{ if(!e.target.closest('a')) tip.style.display='none'; });
+document.getElementById('passage').addEventListener('click',e=>{
+  const mk=e.target.closest('mark');
+  if(mk && !e.target.closest('.gold')){ showTrans(mk.textContent,e); return; }
+  const t=e.target.closest('.gold'); if(!t){tip.style.display='none';return;}
+  const w=W[+t.dataset.i];
+  tip.innerHTML='<b>'+w[0]+'</b><br>'+w[1]+'<br><i>'+w[3]+'</i>';
+  tip.style.display='block';
+  tip.style.left=Math.min(e.clientX,window.innerWidth-280)+'px';
+  tip.style.top=(e.clientY+18)+'px';
+});
+
+// audio
+function speak(){
+  speechSynthesis.cancel();
+  const text=document.getElementById('passage').innerText.replace(/Life in the Countryside/,'Life in the Countryside. ');
+  const parts=text.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+  const voice=pickVoice();
+  parts.forEach(p=>{ const u=new SpeechSynthesisUtterance(p); u.lang='en-US'; u.rate=rate; u.pitch=1.0; if(voice) u.voice=voice; speechSynthesis.speak(u); });
+}
+function stopSpeak(){speechSynthesis.cancel();}
+
+// highlighter
+function hl(){
+  const s=window.getSelection();
+  if(!s.rangeCount||s.isCollapsed) return;
+  try{ const m=document.createElement('mark'); s.getRangeAt(0).surroundContents(m); }catch(err){ alert("Matnni bir xil paragraf ichida belgilang."); }
+  s.removeAllRanges();
+}
+function unhl(){
+  document.querySelectorAll('#passage mark').forEach(m=>m.replaceWith(...m.childNodes));
+}
+
+// test
+const Q=[
+ {t:'tf',q:'The countryside can offer natural resources that support a simple way of life.',a:'TRUE'},
+ {t:'tf',q:'Rural depopulation has caused the population of villages to grow.',a:'FALSE'},
+ {t:'tf',q:'Children in rural areas always attend school in their own village.',a:'FALSE'},
+ {t:'tf',q:'Smallholders can be affected by changes in the wider economy more than city workers.',a:'TRUE'},
+ {t:'tf',q:'Most rural schools now offer online courses.',a:'NOT GIVEN'},
+ {t:'fill',q:'Farmers use ______ to keep the soil fertile.',a:'crop rotation'},
+ {t:'fill',q:'Rural areas may be described as a ______.',a:'backwater'},
+ {t:'fill',q:'Disease can ______ both crops and forests.',a:'afflict'},
+ {t:'fill',q:'Many rural communities protect their forests and ______.',a:'rivers'},
+ {t:'mc',q:'According to the writer, where a family lives depends mainly on:',o:['distance from the city','access to services and work','the price of land','the size of the farm'],a:1},
+ {t:'mc',q:'Remote viewing allows students in far-flung villages to:',o:['travel to cities','access museums online','build new schools','sell crops abroad'],a:1},
+ {t:'mc',q:'The word "subsistence" means:',o:['wealthy','producing just enough to live on','export-focused','unemployed'],a:1},
+ {t:'mc',q:'Children raised on farms gain practical knowledge of:',o:['computing','animal husbandry','banking','medicine'],a:1}
+];
+const L='ABCD';
+document.getElementById('questions').innerHTML='<b style="font-family:Arial">Savollar 1–13</b>'+Q.map((x,i)=>{
+  const n='<span class="n">'+(i+1)+'.</span> ';
+  if(x.t==='tf') return '<div class="q">'+n+x.q+'<div class="opts">'+['TRUE','FALSE','NOT GIVEN'].map(o=>'<label><input type="radio" name="q'+i+'" value="'+o+'">'+o+'</label>').join('')+'</div></div>';
+  if(x.t==='fill') return '<div class="q">'+n+x.q+' <input class="txt" id="q'+i+'"></div>';
+  return '<div class="q">'+n+x.q+'<div class="opts">'+x.o.map((o,j)=>'<label><input type="radio" name="q'+i+'" value="'+j+'">'+L[j]+'. '+o+'</label>').join('')+'</div></div>';
+}).join('');
+
+let left=20*60, timer=setInterval(tick,1000);
+function tick(){
+  left--; const m=String(Math.floor(left/60)).padStart(2,'0'), s=String(left%60).padStart(2,'0');
+  document.getElementById('clock').textContent=m+':'+s;
+  if(left<=0){clearInterval(timer);submitTest();}
+}
+function submitTest(){
+  if(document.getElementById('score').style.display==='block') return;
+  clearInterval(timer);
+  let c=0;
+  Q.forEach((x,i)=>{
+    let ok=false;
+    if(x.t==='fill'){ const v=(document.getElementById('q'+i).value||'').trim().toLowerCase(); ok=v===x.a.toLowerCase(); }
+    else { const r=document.querySelector('input[name="q'+i+'"]:checked'); const v=r?r.value:null;
+      ok = x.t==='tf' ? v===x.a : v==String(x.a); }
+    if(ok) c++;
+  });
+  const bands=[0,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,9];
+  const band=bands[c]||0;
+  const sc=document.getElementById('score');
+  sc.style.display='block';
+  sc.innerHTML='<h2 style="font-weight:400;margin-top:0">Natija: '+c+' / 13</h2><p>Taxminiy band: <b style="color:var(--gold);font-size:22px">'+band.toFixed(1)+'</b></p><p>Javoblarni tekshirish uchun Kalit so\'zlar bo\'limiga va matnga qayting.</p>';
+  sc.innerHTML+=explainHTML();
+  saveProgress(c,band);
+  sc.scrollIntoView({behavior:'smooth'});
+}
+
+// vocab cards
+let idx=0, flipped=false;
+function renderCard(){
+  const w=W[idx]; flipped=false;
+  document.getElementById('card').innerHTML='<div class="w">'+w[0]+'</div><div class="small">Bosing — ma\'nosi</div>';
+  document.getElementById('cnt').textContent=(idx+1)+' / '+W.length;
+}
+function flipCard(){
+  const w=W[idx]; flipped=!flipped;
+  document.getElementById('card').innerHTML = flipped
+    ? '<div class="w" style="font-size:22px">'+w[1]+'</div><div class="small"><i>'+w[3]+'</i></div><div class="small">"'+w[2]+'"</div>'
+    : '<div class="w">'+w[0]+'</div><div class="small">Bosing — ma\'nosi</div>';
+}
+function step(d){ idx=(idx+d+W.length)%W.length; renderCard(); }
+renderCard();
+
+// better voice: pick the most natural English voice the device has
+// voice & speed settings (user-adjustable)
+let rate=0.75, voiceChoice=null, voices=[];
+function loadVoices(){
+  voices=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
+  const sel=document.getElementById('voiceSel'); if(!sel||!voices.length) return;
+  sel.innerHTML=voices.map((v,i)=>'<option value="'+i+'">'+v.name+'</option>').join('');
+  const d=pickVoice(); sel.value=Math.max(0,voices.indexOf(d));
+}
+speechSynthesis.onvoiceschanged=loadVoices;
+
+function pickVoice(){
+  if(voiceChoice) return voiceChoice;
+  const vs=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
+  const pref=['Google US English','Microsoft Aria','Microsoft Jenny','Samantha','Google UK English Female','Microsoft Guy'];
+  for(const p of pref){ const v=vs.find(x=>x.name.includes(p)); if(v) return v; }
+  return vs.find(x=>x.lang==='en-US')||vs[0];
+}
+
+// Word Match game
+let g={};
+function startGame(mode){ mode=mode||g.mode||'match'; document.getElementById('gamemenu').classList.add('hidden'); document.getElementById('gamebox').classList.remove('hidden'); document.getElementById('gameback').innerHTML='<button class="back" onclick="gameMenu()">← Games</button>'; g={mode:mode,r:0,score:0,streak:0,lives:3,deck:[...W].sort(()=>Math.random()-.5).slice(0,8),done:false,left:10,t:null,opts:[]}; nextRound(); }
+function nextRound(){
+  clearInterval(g.t);
+  if(g.mode==='scramble') return nextScramble();
+  if(g.mode==='gap') return nextGap();
+  if(g.lives<=0||g.r>=g.deck.length) return endGame();
+  const w=g.deck[g.r], wi=W.indexOf(w);
+  const others=W.map((_,i)=>i).filter(i=>i!==wi).sort(()=>Math.random()-.5).slice(0,3);
+  g.opts=[wi,...others].sort(()=>Math.random()-.5);
+  g.left=10; g.done=false;
+  document.getElementById('gamebox').innerHTML='<div class="bar" style="justify-content:space-between;font-family:Arial;font-size:15px"><span>Ball: <b>'+g.score+'</b></span><span>Seriya: <b>'+g.streak+'</b></span><span>❤️ '+g.lives+'</span><span>⏱ <b id="gt">10</b></span></div>'
+    +'<div class="flip"><div class="w">'+w[0]+'</div><div class="small">Which is the meaning of this word?</div></div>'
+    +'<div style="margin-top:12px">'+g.opts.map(i=>'<button class="btn ghost" style="width:100%;margin:5px 0;text-align:left" onclick="answer('+i+')">'+W[i][1]+'</button>').join('')+'</div><div id="fb" class="res"></div>';
+  g.t=setInterval(()=>{ g.left--; const e=document.getElementById('gt'); if(e) e.textContent=g.left; if(g.left<=0){ miss('⏰ Vaqt tugadi!'); } },1000);
+}
+function answer(i){
+  if(g.done) return; g.done=true; clearInterval(g.t);
+  const w=g.deck[g.r];
+  if(i===W.indexOf(w)){ g.streak++; const p=10+g.left*2+(g.streak>2?5:0); g.score+=p; fb('✅ To\'g\'ri! +'+p,'#7ddc8a'); }
+  else { g.streak=0; g.lives--; fb('❌ Noto\'g\'ri. Javob: '+w[1],'#ff8a8a'); }
+  g.r++; setTimeout(nextRound,1500);
+}
+function miss(msg){
+  if(g.done) return; g.done=true; clearInterval(g.t);
+  g.streak=0; g.lives--; fb(msg+' Javob: '+g.deck[g.r][1],'#ff8a8a'); g.r++; setTimeout(nextRound,1800);
+}
+function fb(t,c){ const e=document.getElementById('fb'); if(e){ e.textContent=t; e.style.color=c; } }
+// game menu
+function gameMenu(){
+  clearInterval(g.t);
+  document.getElementById('gamemenu').classList.remove('hidden');
+  document.getElementById('gamebox').classList.add('hidden');
+  document.getElementById('gameback').innerHTML='';
+}
+function hud(){
+  return '<div class="bar" style="justify-content:space-between;font-family:Arial;font-size:15px"><span>Ball: <b>'+g.score+'</b></span><span>Seriya: <b>'+g.streak+'</b></span><span>❤️ '+g.lives+'</span><span>'+(g.r+1)+'/'+g.deck.length+'</span></div>';
+}
+function gamePoints(ok){
+  if(ok){ g.streak++; const p=10+(g.streak>2?5:0); g.score+=p; fb('✅ To\'g\'ri! +'+p,'#7ddc8a'); }
+  else { g.streak=0; g.lives--; }
+}
+
+// Word Scramble
+function nextScramble(){
+  if(g.lives<=0||g.r>=g.deck.length) return endGame();
+  const w=g.deck[g.r];
+  let s; do{ s=w[0].replace(/[\s-]/g,'').split('').sort(()=>Math.random()-.5).join(''); } while(s===w[0].replace(/[\s-]/g,''));
+  g.done=false;
+  document.getElementById('gamebox').innerHTML=hud()+'<div class="flip"><div class="w" style="letter-spacing:.2em">'+s.toUpperCase()+'</div><div class="small">Unscramble the letters and type the word<br>Meaning: '+w[1]+'</div></div><div style="margin-top:12px"><input class="txt" id="ans" autocomplete="off"> <button class="btn" onclick="checkScramble()">Tekshirish</button></div><div id="fb" class="res"></div>';
+  document.getElementById('ans').focus();
+}
+function checkScramble(){
+  if(g.done) return; g.done=true;
+  const w=g.deck[g.r], n=x=>x.toLowerCase().replace(/[\s-]/g,'');
+  const v=document.getElementById('ans').value;
+  const ok=n(v)===n(w[0]);
+  gamePoints(ok);
+  if(!ok) fb('❌ Javob: '+w[0],'#ff8a8a');
+  g.r++; setTimeout(nextScramble,1500);
+}
+
+// Gap Quiz
+function nextGap(){
+  if(g.lives<=0||g.r>=g.deck.length) return endGame();
+  const w=g.deck[g.r], wi=W.indexOf(w);
+  const re=new RegExp(w[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');
+  const sent=w[2].replace(re,'______');
+  const others=W.map((_,i)=>i).filter(i=>i!==wi).sort(()=>Math.random()-.5).slice(0,3);
+  g.opts=[wi,...others].sort(()=>Math.random()-.5);
+  g.done=false;
+  document.getElementById('gamebox').innerHTML=hud()+'<div class="flip"><div style="font-size:20px;line-height:1.5">'+sent+'</div><div class="small">Choose the word that fits the gap</div></div><div style="margin-top:12px">'+g.opts.map(i=>'<button class="btn ghost" style="width:100%;margin:5px 0;text-align:left" onclick="answerGap('+i+')">'+W[i][0]+'</button>').join('')+'</div><div id="fb" class="res"></div>';
+}
+function answerGap(i){
+  if(g.done) return; g.done=true;
+  const w=g.deck[g.r];
+  const ok=i===W.indexOf(w);
+  gamePoints(ok);
+  if(!ok) fb('❌ Javob: '+w[0],'#ff8a8a');
+  g.r++; setTimeout(nextGap,1500);
+}
+
+// Speaking tools
+const SENT=["For many families, the countryside offers a way of life that is hard to find in a crowded city.","Farms, forests and water bodies provide an abundance of natural resources.","Yet rural life is not without difficulties.","Farming itself is demanding.","Environmental awareness is rising too."];
+let si=0, p2t=null;
+function renderShadow(){
+  document.getElementById('shadowText').innerHTML='<b>'+(si+1)+'/'+SENT.length+'</b><br>'+SENT[si];
+  document.getElementById('target').textContent=SENT[si];
+  document.getElementById('said').textContent='';
+}
+function shadowNext(d){ si=(si+d+SENT.length)%SENT.length; renderShadow(); }
+function shadowPlay(){
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(SENT[si]); u.lang='en-US'; u.rate=rate;
+  const v=pickVoice(); if(v) u.voice=v;
+  speechSynthesis.speak(u);
+}
+function part2(sec){
+  clearInterval(p2t); let left=sec; const el=document.getElementById('p2clock');
+  const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+  el.textContent=fmt(left);
+  p2t=setInterval(()=>{ left--; el.textContent=fmt(Math.max(left,0)); if(left<=0){ clearInterval(p2t); speechSynthesis.speak(new SpeechSynthesisUtterance('Time is up')); } },1000);
+}
+function checkSpeech(){
+  const R=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const out=document.getElementById('said');
+  if(!R){ out.textContent='Speech recognition is not supported in this browser. Try Chrome.'; return; }
+  const r=new R(); r.lang='en-US'; r.interimResults=false;
+  out.textContent='Listening...';
+  r.onresult=e=>{
+    const said=e.results[0][0].transcript;
+    const norm=s=>s.toLowerCase().replace(/[^a-z\s]/g,'').split(/\s+/).filter(Boolean);
+    const t=norm(SENT[si]), s=norm(said);
+    const missed=t.filter(w=>!s.includes(w));
+    const pct=Math.round((t.length-missed.length)/t.length*100);
+    out.innerHTML='You said: <i>'+said+'</i><br>Match: <b>'+pct+'%</b>'+(missed.length?'<br>Check: '+missed.join(', '):'<br>Great job!');
+  };
+  r.onerror=()=>{ out.textContent='Could not hear you. Try again.'; };
+  r.start();
+}
+
+// Part 2: random cue card, 1 min prep, then 2 min speaking, auto-switch with beeps
+const CUES=["Describe a farm or countryside place you have visited.","Describe a village where you would like to live.","Describe a traditional craft or skill from rural life.","Describe a time you enjoyed being outdoors in nature."];
+let p2Stage=null, p2Left=0, p2Timer=null;
+const p2Fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+function beep(freq,dur){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const o=ctx.createOscillator(), gn=ctx.createGain(); o.frequency.value=freq; o.connect(gn); gn.connect(ctx.destination); o.start(); gn.gain.setValueAtTime(0.3,ctx.currentTime); gn.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur); o.stop(ctx.currentTime+dur); }catch(e){} }
+function p2Reset(){ clearInterval(p2Timer); p2Stage=null; p2Left=0; document.getElementById('p2clock').textContent='01:00'; document.getElementById('p2bar').style.width='100%'; document.getElementById('p2label').textContent='Ready'; document.getElementById('cue').innerHTML=''; }
+function p2Start(){
+  p2Reset();
+  const c=CUES[Math.floor(Math.random()*CUES.length)];
+  document.getElementById('cue').innerHTML='<b>Cue card</b><br>'+c+'<br><span style="font-size:14px;color:var(--muted)">Say: where it is, what you do there, and why you like it.</span>';
+  p2Stage='prep'; p2Left=60;
+  p2Tick(); p2Timer=setInterval(p2Tick,1000);
+}
+function p2Tick(){
+  if(p2Left<0){
+    if(p2Stage==='prep'){ p2Stage='speak'; p2Left=120; beep(880,0.4); }
+    else { clearInterval(p2Timer); p2Stage=null; beep(440,0.8); document.getElementById('p2label').textContent='Time is up'; return; }
+  }
+  const tot=p2Stage==='prep'?60:120, shown=Math.max(p2Left,0);
+  document.getElementById('p2clock').textContent=p2Fmt(shown);
+  document.getElementById('p2bar').style.width=(shown/tot*100)+'%';
+  document.getElementById('p2label').textContent=p2Stage==='prep'?'Preparation':'Speaking';
+  p2Left--;
+}
+
+// Pronunciation check v2: word-by-word colors, best of 3 alternatives, next sentence
+function nextSent(){ si=(si+1)%SENT.length; renderShadow(); }
+function checkSpeech2(){
+  const R=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const out=document.getElementById('said');
+  if(!R){ out.textContent='Speech recognition is not supported here. Please use Chrome.'; return; }
+  const r=new R(); r.lang='en-US'; r.interimResults=false; r.maxAlternatives=3;
+  out.innerHTML='<i>Listening... speak now</i>';
+  r.onresult=e=>{
+    const clean=s=>s.toLowerCase().replace(/[^a-z\s]/g,'').split(/\s+/).filter(Boolean);
+    const target=clean(SENT[si]);
+    let best=null;
+    [...e.results[0]].forEach(a=>{ const sp=clean(a.transcript); const hit=target.map(w=>sp.includes(w)); const c=hit.filter(Boolean).length; if(!best||c>best.c) best={c,hit,said:a.transcript}; });
+    const pct=Math.round(best.c/target.length*100);
+    const words=target.map((w,i)=>'<span style="color:'+(best.hit[i]?'#7ddc8a':'#ff8a8a')+'">'+w+'</span>').join(' ');
+    const stars=pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':'⭐';
+    out.innerHTML='You said: <i>'+best.said+'</i><br>Score: <b>'+pct+'%</b> '+stars+'<div style="margin-top:6px;font-size:17px;line-height:1.9">'+words+'</div>'+(pct>=90?'Excellent! Click "Next sentence".':'Green = correct, red = check it. Try again.');
+  };
+  r.onerror=e=>{ out.textContent=e.error==='not-allowed'?'Microphone permission was denied. Allow it in browser settings.':'Could not hear you. Try again.'; };
+  r.start();
+}
+
+// Test explanations
+function explainHTML(){
+  let h='<h3 style="font-weight:400;margin-top:18px">Answers</h3>';
+  Q.forEach((x,i)=>{
+    let ok=false, ua='-', ca=x.t==='mc'?x.o[x.a]:x.a;
+    if(x.t==='fill'){ ua=(document.getElementById('q'+i).value||'').trim()||'-'; ok=ua.toLowerCase()===x.a.toLowerCase(); }
+    else { const r=document.querySelector('input[name="q'+i+'"]:checked'); const v=r?r.value:null;
+      if(x.t==='tf'){ ua=v||'-'; ok=v===x.a; } else { ua=v!==null?x.o[+v]:'-'; ok=v==String(x.a); } }
+    h+='<div class="res" style="margin:6px 0;color:'+(ok?'#7ddc8a':'#ff8a8a')+'">'+(i+1)+'. '+(ok?'✅':'❌')+' You: '+ua+(ok?'':' · Correct: '+ca)+'</div>';
+  });
+  return h;
+}
+
+// Progress saved on this device
+function loadP(){ try{ return JSON.parse(localStorage.getItem('rc')||'{}'); }catch(e){ return {}; } }
+function saveP(p){ try{ localStorage.setItem('rc',JSON.stringify(p)); }catch(e){} }
+function saveProgress(c,band){ const p=loadP(); p.tests=(p.tests||0)+1; p.bestTest=Math.max(p.bestTest||0,c); p.lastBand=band; saveP(p); renderProgress(); }
+function saveGame(score){ const p=loadP(); p.gamesPlayed=(p.gamesPlayed||0)+1; p.bestGame=Math.max(p.bestGame||0,score); saveP(p); renderProgress(); }
+function renderProgress(){
+  const el=document.getElementById('progress'); if(!el) return; const p=loadP();
+  const t=p.tests?'Tests: '+p.tests+' · Best: '+p.bestTest+'/13 · Band: '+Number(p.lastBand).toFixed(1):'No test taken yet';
+  const g=p.gamesPlayed?'Games: '+p.gamesPlayed+' · Best score: '+p.bestGame:'No games played yet';
+  el.innerHTML=t+' | '+g;
+}
+
+// Speaking: Part 1 and Part 3 questions
+const P1=["What do you do?","Do you like the countryside or the city? Why?","What kind of food do you enjoy?","Do you like to travel? Why?","Tell me about your hometown."];
+const P3=["Do you think rural life will change in the future?","Should governments support farmers? Why?","How does technology change life in the countryside?","Is it better for children to grow up in the city or the countryside?"];
+function nextP1(){ document.getElementById('p1q').textContent=P1[Math.floor(Math.random()*P1.length)]; }
+function nextP3(){ document.getElementById('p3q').textContent=P3[Math.floor(Math.random()*P3.length)]; }
+nextP1(); nextP3(); renderProgress();
+
+// Practice: 3 more passages with questions, plus a word bank exercise
+const PRACTICE=[
+{title:'Urban Gardens',text:['In many cities, empty roofs and small yards are being turned into vegetable gardens. Residents grow tomatoes, herbs and leafy greens, which reduces the distance food must travel to reach the table.','These gardens also bring people together. Neighbours who once rarely spoke now share tools, seeds and advice. Some schools have added gardens to their lessons, so children learn where food comes from.','However, urban gardening is not always easy. Soil in cities can be polluted, so many gardeners build raised beds filled with clean soil. Water can also be expensive, which is why rainwater collection is becoming popular.'],qs:[{q:'Why are vegetables grown in cities useful?',o:['They are cheaper to sell abroad','Food travels a shorter distance','They need no water','They replace all farms'],a:1},{q:'What do neighbours do in these gardens?',o:['Sell land','Share tools and advice','Build factories','Close the gardens'],a:1},{q:'Why do gardeners use raised beds?',o:['To grow trees','To avoid polluted soil','To make gardens larger','To save money on seeds'],a:1},{q:'What is becoming popular to reduce water costs?',o:['Buying bottled water','Rainwater collection','Digging wells in the street','Stopping watering'],a:1}]},
+{title:'Water and Farming',text:['Farming uses more water than any other human activity. In dry regions, farmers depend on irrigation systems that carry water from rivers and underground sources to their fields.','Drip irrigation is one solution. Instead of flooding the land, it delivers small amounts of water directly to the roots of plants. This method can reduce waste significantly and keep soil healthier.','Governments can help by offering training and small loans to farmers who adopt water-saving methods. Experts believe that, if these measures are applied widely, many regions can continue producing food even during long droughts.'],qs:[{q:'What uses the most water according to the passage?',o:['Cities','Industry','Farming','Households'],a:2},{q:'How does drip irrigation work?',o:['It floods the fields','It sends small amounts to roots','It removes water from soil','It uses rainfall only'],a:1},{q:'How can governments support farmers?',o:['By banning farming','By offering training and loans','By closing rivers','By raising water prices only'],a:1},{q:'What do experts believe?',o:['Droughts will end','Regions can keep producing food','Farming must stop','Water is unlimited'],a:1}]},
+{title:'Learning in the Countryside',text:['Children in remote villages once had to walk for hours to reach the nearest school. Today, many of them attend lessons online, using tablets provided by local education centres.','Online learning has clear benefits. Students can study at their own pace and access libraries and expert lectures that would otherwise be far away. Teachers can also share materials with students across the region.','Still, problems remain. Weak internet connections make video lessons difficult, and some families cannot afford devices. For this reason, many experts recommend a mix of online study and face-to-face teaching.'],qs:[{q:'What did children in remote villages once have to do?',o:['Study at home only','Walk for hours to school','Travel abroad','Use tablets'],a:1},{q:'What is one benefit of online learning?',o:['Lower costs for teachers','Study at their own pace','No need for books','Shorter school days'],a:1},{q:'What is a problem mentioned in the passage?',o:['Too many teachers','Weak internet connections','Lack of lessons','Expensive food'],a:1},{q:'What do many experts recommend?',o:['Only online study','Only face-to-face teaching','A mix of both','Stopping school'],a:2}]}
+];
+const FILL=[{s:'Good ___ helps farmers grow crops in dry years.',w:'irrigation'},{s:'Overused fields become ___ after many years.',w:'infertile'},{s:'The number of farmers is ___ every year.',w:'dwindling'},{s:'A ___ can follow several years of drought.',w:'famine'},{s:'___ destroyed the wheat harvest that summer.',w:'drought'},{s:'Farming is the main ___ in this valley.',w:'livelihood'},{s:'___ farming protects the soil for future generations.',w:'sustainable'},{s:'___ of forests protects wildlife.',w:'conservation'}];
+function renderPractice(){
+  const box=document.getElementById('practiceBox');
+  if(box.dataset.ready) return; box.dataset.ready='1';
+  let h='';
+  PRACTICE.forEach((p,pi)=>{
+    h+='<div class="passage" style="margin-top:14px"><h3>'+p.title+'</h3>'+p.text.map(t=>'<p>'+t+'</p>').join('');
+    p.qs.forEach((x,qi)=>{
+      h+='<div class="q"><span class="n">'+(qi+1)+'.</span> '+x.q+'<div class="opts">'+x.o.map((o,oi)=>'<label><input type="radio" name="p'+pi+'_'+qi+'" value="'+oi+'">'+L[oi]+'. '+o+'</label>').join('')+'</div></div>';
+    });
+    h+='<button class="btn" onclick="checkPractice('+pi+')">Check</button><div id="pres'+pi+'" class="res"></div></div>';
+  });
+  const bank=FILL.map(f=>f.w).sort(()=>Math.random()-.5);
+  h+='<div class="passage" style="margin-top:14px"><h3>Fill in the gaps</h3><p>Word bank: <b>'+bank.join(' / ')+'</b></p>';
+  FILL.forEach((f,i)=>{ h+='<div class="q"><span class="n">'+(i+1)+'.</span> '+f.s+' <input class="txt" id="f'+i+'"></div>'; });
+  h+='<button class="btn" onclick="checkFill()">Check</button><div id="fres" class="res"></div></div>';
+  box.innerHTML=h;
+}
+function checkPractice(pi){
+  const p=PRACTICE[pi]; let c=0;
+  p.qs.forEach((x,qi)=>{ const r=document.querySelector('input[name="p'+pi+'_'+qi+'"]:checked'); if(r && +r.value===x.a) c++; });
+  document.getElementById('pres'+pi).innerHTML='Score: <b>'+c+' / '+p.qs.length+'</b>'+(c===p.qs.length?' Perfect!':'');
+}
+function checkFill(){
+  let c=0;
+  FILL.forEach((f,i)=>{ const el=document.getElementById('f'+i); const ok=(el.value||'').trim().toLowerCase()===f.w; el.style.borderColor=ok?'#7ddc8a':'#ff8a8a'; if(ok) c++; });
+  document.getElementById('fres').innerHTML='Score: <b>'+c+' / '+FILL.length+'</b>';
+}
+
+// Reading: more passages (choose from the dropdown in General Reading)
+const READ=[
+{title:'Life in the Countryside',html:null},
+{title:'Why Rural Schools Are Closing',html:'<p>Across many countries, small village schools are closing their doors. In some areas, the number of children has fallen so sharply that a school with only a few pupils can no longer afford its teachers, heating or textbooks.</p><p>Local governments often argue that consolidation brings better results. Larger schools can offer a wider range of subjects, sports facilities and specialist teachers. Students in these schools also tend to perform better in national examinations, according to several studies.</p><p>Parents, however, see the situation differently. Long bus journeys can take more than an hour each way, which leaves children tired and with less time for homework and family life. For families without a car, the distance can make education almost impossible.</p><p>A growing number of communities have responded with creative solutions. Some have turned empty classrooms into community centres, while others have introduced mobile teachers who visit several villages each week. Experts agree that the best answer depends on local needs rather than a single national policy.</p>'},
+{title:'The Return to the Land',html:'<p>For decades, young people in rural areas moved to cities in search of higher wages and more exciting work. Recently, however, a surprising trend has emerged: some graduates are choosing to return to the countryside, where living costs are lower and the pace of life is slower.</p><p>Many of these newcomers bring modern skills to traditional occupations. They use mobile applications to monitor soil moisture, sell local produce directly to customers online, and design small businesses around tourism or craft production. In this way, they combine old knowledge with new technology.</p><p>The move is not without challenges. Rural areas often have limited healthcare, slower internet connections and fewer cultural events. Newcomers sometimes find that local residents are cautious about change, particularly when new ideas threaten established ways of doing things.</p><p>Nevertheless, the trend appears to be gaining momentum. Local councils have started to offer grants and tax relief to people who settle in villages, and several regions have reported a modest rise in population for the first time in many years.</p>'},
+{title:'Protecting Forests',html:'<p>Forests cover a large share of the land on Earth and provide homes for countless species of plants and animals. They also store carbon, regulate rainfall and protect rivers from erosion. Despite these benefits, forests continue to disappear at an alarming rate.</p><p>The main causes of deforestation are clearing land for farming, logging for timber and the spread of roads into remote regions. Once the trees are removed, the soil often becomes less fertile, and heavy rain can wash it away into streams and rivers.</p><p>Governments and communities have tried several approaches to slow this loss. Some countries have created protected areas where logging is banned. Others pay landowners to keep their forests standing, a system that rewards conservation rather than destruction.</p><p>Education also plays an important role. When local people understand how forests support their own livelihoods, they are more likely to protect them. Many experts believe that long term success depends on combining strict rules with community involvement.</p>'}
+];
+function fillPsel(){ const s=document.getElementById('psel'); if(s) s.innerHTML=READ.map((r,i)=>'<option value="'+i+'">'+r.title+'</option>').join(''); }
+function loadPassage(i){
+  const r=READ[i];
+  document.getElementById('passage').innerHTML = i===0 ? passageHTML : '<h3>'+r.title+'</h3>'+r.html;
+  document.getElementById('passage').scrollTop=0; tip.style.display='none';
+}
+function hl2(){
+  const s=getSelection();
+  const pre=(s.rangeCount&&!s.isCollapsed)?{txt:s.toString(),rc:(s.getRangeAt(0).getBoundingClientRect?s.getRangeAt(0).getBoundingClientRect():(s.anchorNode&&s.anchorNode.parentElement?s.anchorNode.parentElement.getBoundingClientRect():{left:0,bottom:0}))}:null;
+  if(!s.rangeCount||s.isCollapsed){ alert('Avval matnni belgilang'); return; }
+  const r=s.getRangeAt(0);
+  const root=r.commonAncestorContainer.nodeType===1?r.commonAncestorContainer:r.commonAncestorContainer.parentNode;
+  const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  const parts=[];
+  while(tw.nextNode()){
+    const n=tw.currentNode;
+    if(!n.textContent.trim()||!r.intersectsNode(n)) continue;
+    parts.push({n, st:n===r.startContainer?r.startOffset:0, en:n===r.endContainer?r.endOffset:n.textContent.length});
+  }
+  parts.forEach(({n,st,en})=>{
+    if(en<=st) return;
+    const mid=n.splitText(st); mid.splitText(en-st);
+    const m=document.createElement('mark'); m.textContent=mid.textContent; mid.parentNode.replaceChild(m,mid);
+  });
+  s.removeAllRanges();
+  if(pre) showTrans(pre.txt,{clientX:pre.rc.left,clientY:pre.rc.bottom});
+}
+fillPsel();
+
+// Translation for highlighted text: vocabulary meaning if known, otherwise a Google Translate link
+function showTrans(text,e){
+  const clean=text.trim().toLowerCase();
+  const hit=W.find(w=>w[0].toLowerCase()===clean);
+  let html;
+  if(hit){ html='<b>'+hit[0]+'</b><br>'+hit[1]+'<br><i>'+hit[3]+'</i>'; }
+  else { const short=text.trim().length>60?text.trim().slice(0,60)+'...':text.trim();
+    html='<b>'+short+'</b><br><a href="https://translate.google.com/?sl=en&tl=uz&op=translate&text='+encodeURIComponent(text.trim())+'" target="_blank" rel="noopener" style="color:#1a56db">Tarjima qilish (Google Translate)</a>'; }
+  tip.innerHTML=html; tip.style.display='block';
+  tip.style.left=Math.min(e.clientX,window.innerWidth-280)+'px'; tip.style.top=(e.clientY+18)+'px';
+}
+
+// Leaderboard: winners save a name and score to the shared database (db capability)
+const dbPromise = (window.claude && window.claude.use) ? window.claude.use('db').catch(()=>null) : Promise.resolve(null);
+
+async function submitScore(){
+  const name=(document.getElementById('pname').value||'').trim().slice(0,20);
+  const out=document.getElementById('sres');
+  if(!name){ out.textContent='Please enter a name.'; return; }
+  const db=await dbPromise;
+  if(!db){ out.textContent='Leaderboard is not available here. Open the page in Claude.'; return; }
+  try{
+    await db.collection('scores').add({name:name, score:g.score, game:g.mode, date:Date.now()});
+    out.textContent='Saved to the leaderboard!';
+    document.getElementById('psave').disabled=true;
+  }catch(e){ out.textContent='Could not save. Please try again.'; }
+}
+
+async function loadBoard(){
+  const box=document.getElementById('boardList'); if(!box) return;
+  const db=await dbPromise;
+  if(!db){ box.textContent='Leaderboard works when the page is opened in Claude.'; return; }
+  box.textContent='Loading...';
+  try{
+    const snap=await db.collection('scores').orderBy('score','desc').limit(10).get();
+    if(snap.empty){ box.textContent='No scores yet. Win a game and be the first!'; return; }
+    box.innerHTML='';
+    snap.docs.forEach((d,i)=>{
+      const x=d.data()||{};
+      const row=document.createElement('div');
+      row.className='res'; row.style.margin='6px 0';
+      row.textContent=(i+1)+'. '+(x.name||'Someone')+' - '+(x.score||0)+' pts ('+(x.game||'game')+')';
+      box.appendChild(row);
+    });
+  }catch(e){ box.textContent='Could not load the leaderboard.'; }
+}
+
+function endGame(){
+  const win=g.lives>0;
+  if(win) g.score+=50;
+  saveGame(g.score);
+  const stars=g.score>=150?'⭐⭐⭐':g.score>=80?'⭐⭐':'⭐';
+  document.getElementById('gamebox').innerHTML=
+    '<div class="card" style="cursor:default;text-align:center"><div style="font-size:56px">'+(win?'🏆':'💔')+'</div>'
+    +'<h2>'+(win?'You won!':'Game over')+'</h2>'
+    +'<p style="font-size:20px;color:var(--gold)">Score: '+g.score+' '+stars+(win?' (includes +50 win bonus)':'')+'</p>'
+    +(win?'<p>Enter your name to save your score on the leaderboard:</p><input class="txt" id="pname" maxlength="20" placeholder="Your name"> <button class="btn" id="psave" onclick="submitScore()">Save</button><div id="sres" class="res"></div>':'')
+    +'<br><button class="btn" style="margin-top:12px" onclick="startGame(g.mode)">Play again</button></div>';
+}
+</script>
+</body>
+</html>
